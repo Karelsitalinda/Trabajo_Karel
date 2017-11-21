@@ -1,0 +1,35 @@
+package grillas;
+import java.awt.Canvas;
+import java.awt.Graphics;
+
+import acm.graphics.*;
+
+public class defgrilla extends Canvas{
+	
+	 int ancho, alto;
+	 
+	  int filas;
+	 
+	  int columnas;
+	 
+	 defgrilla(int an, int al, int r, int c) {
+	    setSize(ancho = an, alto = al);
+	    filas = r;
+	    columnas = c;
+	  }
+	 
+	  public void imprimir(Graphics g) {
+	    
+	    ancho = getSize().width;
+	    alto = getSize().height;
+	 
+	    int dislineas1 = alto / (filas);
+	    for (int i = 0; i < filas; i++)
+	      g.drawLine(0, i * dislineas1, ancho, i * dislineas1);
+	 
+	    int dislineas2 = ancho / (columnas);
+	    for (int i = 0; i < columnas; i++)
+	      g.drawLine(i * dislineas2, 0, i * dislineas2, alto);
+	  }
+
+}
