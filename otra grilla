@@ -1,0 +1,50 @@
+package KareltoJAVA;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class otragrilla {
+	final static int ancho = 1000;
+	final static int alto = 1000;
+	 
+	  /*int filas = 100;
+	 
+	  int columnas = 100;*/
+	
+	public static void main(String[] args) {
+		JFrame ventana = new JFrame();
+				
+		ventana.setSize(ancho, alto);
+		ventana.setTitle("Ventana en Java");
+		ventana.setLocationRelativeTo(null);
+		ventana.setLayout(new FlowLayout());
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setVisible(true);
+		/*ventana.paint(g);*/
+
+
+		
+		JPanel panelgrilla = new JPanel(); 
+		panelgrilla.setSize(500, 1000);		
+		panelgrilla.setVisible(true);
+		panelgrilla.setLayout(BorderLayout.WEST);
+		ventana.getContentPane().add(panelgrilla);
+		
+		
+		JPanel panelcodigo = new JPanel();
+		panelcodigo.setSize(500, 1000);
+		panelcodigo.setLayout(BorderLayout.EAST);
+		panelcodigo.setVisible(true);
+		ventana.getContentPane().add(panelcodigo);
+		
+
+	}
+
+
+}
