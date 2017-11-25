@@ -1,4 +1,4 @@
-package karel;
+package Karel;
 import acm.program.GraphicsProgram;
 import acm.graphics.*;
 
@@ -6,14 +6,14 @@ import acm.graphics.*;
 public class imagenKarel extends GraphicsProgram{
 	public static final double ESCALA = 0.05;
 	public void run(){		
-	GImage bender= new GImage("../data/bender.jpg",  50, 50);
+	GImage bender= new GImage("../Imagenes/bender.jpg",  50, 50);
 	bender.scale(ESCALA);
 	add(bender); // Como agregamos este al metodo move 
 	move_x(bender);
 	move_x(bender);
 	move_x(bender);
-	bender = rotateClockwise(bender);
-	bender = rotateClockwise(bender);
+	grados(bender);
+	grados(bender);
 	}public void move_x(GImage bender) {
 		pause(1000);
 		bender.setLocation(bender.getX()+50,bender.getY());
@@ -22,25 +22,25 @@ public class imagenKarel extends GraphicsProgram{
 		pause(1000);
 		bender.setLocation(bender.getX(),bender.getY()-50);
 		
-	}  public GImage rotateClockwise(GImage image)
-    {
-        int[][] original = image.getPixelArray();
-        int[][] rotado = new int[original[0].length][original.length];
- 
-        for(int x = 0; x < original.length; x++)
-        {
-            for(int y = 0; y < original[0].length; y++)
-            {
-                rotado[y][x] = original[x][y];
-            }
-        }
- 
-        image = new GImage(rotado);
-		image.scale(ESCALA);
-		add(image);
-		return image;
- 
-    } 
+	}private void grados(GImage imagen) {
+		int[][] pixeles = imagen.getPixelArray();
+		pixeles =Voltear(pixeles);
+		imagen.setVisible(false);
+		imagen = new GImage(pixeles,imagen.getX(),imagen.getY());
+		imagen.scale(ESCALA);
+		add(imagen);
+	}private int[][] Voltear(int[][] pixeles) {
+	    int altura = pixeles.length;
+		int ancho = pixeles[0].length;
+		int [][] nuevo = new int[ancho][altura];
+		for(int i = 0; i < altura ;i++) {
+			for(int p1 = 0 ; p1 < ancho;p1++) {
+				int p2 = ancho - p1 -1 ;
+				nuevo[p1][i] = pixeles[i][p2];
+			}
+		}return nuevo;
+		
+	}
 	
 
 }		
