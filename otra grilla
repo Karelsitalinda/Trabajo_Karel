@@ -1,22 +1,16 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Graphics;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class otragrilla {
 	final static int ancho = 1500;
 	final static int alto = 1000;
-	 
-	  /*int filas = 100;
-	 
-	  int columnas = 100; */
+
 	
 	public static void main (String [] args) {
 		JFrame ventana = new JFrame ();
@@ -34,6 +28,9 @@ public class otragrilla {
 		panelgrilla.setVisible (true);
 		panelgrilla.setBackground(Color.blue);
 		
+		dibujargrilla(panelgrilla);
+		
+		
 		
 		ventana.add(panelgrilla, BorderLayout.EAST);
 		
@@ -49,6 +46,21 @@ public class otragrilla {
 		ventana.add(panelcodigo, BorderLayout.WEST);
 		
 
+	}
+	public static void dibujargrilla(JPanel panel){
+		Graphics g = panel.getGraphics();
+		int anchopanel = panel.getWidth();
+		int altopanel = panel.getHeight();
+		g.setColor(Color.BLACK);
+
+	    int dislineas1 = altopanel / 100;
+	    for (int i = 0; i < 100; i++)
+	      g.drawLine(0, i * dislineas1, ancho, i * dislineas1);
+	    
+	    int dislineas2 = anchopanel / 100;
+	    for (int i = 0; i < 100; i++)
+	      g.drawLine(i * dislineas2, 0, i * dislineas2, alto);
+		
 	}
 
 
