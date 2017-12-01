@@ -3,18 +3,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class otragrilla {
+import acm.gui.TableLayout;
+import acm.program.*;
+
+public class otragrilla{
 	final static int ancho = 1500;
 	final static int alto = 1000;
 
 	
 	public static void main (String [] args) {
-		JFrame ventana = new JFrame ();
-				
+		JFrame ventana = new JFrame ();		
+		ventana.setLayout(new TableLayout(1,2));
 		ventana.setSize (ancho, alto);
 		ventana.setTitle ("Karel en Java");
 		ventana.setLocationRelativeTo (null);
@@ -23,16 +27,29 @@ public class otragrilla {
 
 
 		
-		JPanel panelgrilla = new JPanel (); 
+		JPanel panelgrilla = new JPanel (){
+            public void paintComponent( Graphics g ) {
+               super.paintComponent(g);
+               
+               int anchopanel = this.getWidth();
+               int altopanel = this.getHeight();
+               g.setColor(Color.BLACK);
+
+               int dislineas1 = altopanel / 20;
+               for (int i = 0; i < 20; i++)
+                 g.drawLine(0, i * dislineas1, ancho, i * dislineas1);
+               
+               int dislineas2 = anchopanel / 20;
+               for (int i = 0; i < 20; i++)
+                 g.drawLine(i * dislineas2, 0, i * dislineas2, alto); 
+            }
+       };
 		panelgrilla.setPreferredSize(new Dimension (1000, 1000));
 		panelgrilla.setVisible (true);
-		panelgrilla.setBackground(Color.blue);
-		
-		dibujargrilla(panelgrilla);
-		
+		panelgrilla.setBackground(Color.WHITE);
+		panelgrilla.setLayout(new BorderLayout());
 		
 		
-		ventana.add(panelgrilla, BorderLayout.EAST);
 		
 		
 		JPanel panelcodigo = new JPanel ();
@@ -43,25 +60,15 @@ public class otragrilla {
 		panelcodigo.setBackground(Color.green);
 		
 		
-		ventana.add(panelcodigo, BorderLayout.WEST);
+		ventana.add(panelcodigo);
+		ventana.add(panelgrilla);
 		
+		
+		ventana.pack();
+		ventana.setVisible(true);
 
 	}
-	public static void dibujargrilla(JPanel panel){
-		Graphics g = panel.getGraphics();
-		int anchopanel = panel.getWidth();
-		int altopanel = panel.getHeight();
-		g.setColor(Color.BLACK);
 
-	    int dislineas1 = altopanel / 100;
-	    for (int i = 0; i < 100; i++)
-	      g.drawLine(0, i * dislineas1, ancho, i * dislineas1);
-	    
-	    int dislineas2 = anchopanel / 100;
-	    for (int i = 0; i < 100; i++)
-	      g.drawLine(i * dislineas2, 0, i * dislineas2, alto);
-		
-	}
 
 
 }
