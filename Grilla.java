@@ -79,7 +79,7 @@ public class Grilla {
 			 return posicion_inicial;	
 			 
 		}public int orientacion_inicial() {
-			String orientacion_inicial = readLine("Introduzca orientación inicial en minuscula (norte, sur, este, oeste):");
+			String orientacion_inicial = readLine("Introduzca orientaciÃ³n inicial en minuscula (norte, sur, este, oeste):");
 			int orientacion=0;
 			if(orientacion_inicial.equals("norte") == true) {
 				 orientacion = 2;
@@ -100,7 +100,7 @@ public class Grilla {
 			 
 			 return posicion_final;	
 		}public int orientacion_final() {
-			String orientacion_final = readLine("Introduzca orientación inicial en minuscula (norte, sur, este, oeste):");
+			String orientacion_final = readLine("Introduzca orientaciÃ³n inicial en minuscula (norte, sur, este, oeste):");
 			int orientacion=0;
 			if(orientacion_final.equals("norte") == true) {
 				 orientacion = 2;
@@ -221,11 +221,21 @@ public class Grilla {
 	
 	public static void main (String [] args) {
 		
-		ImageIcon I = new ImageIcon("Imagenes/Bender.png");
+		ImageIcon I = new ImageIcon("Imagenes/Este.png");
+		ImageIcon I1 = new ImageIcon("Imagenes/Norte.png");
+		ImageIcon I2 = new ImageIcon("Imagenes/Oeste.png");
+		ImageIcon I3 = new ImageIcon("Imagenes/Sur.png");
 		ImageIcon B = new ImageIcon("Imagenes/blanco.png");
-        final Image bender = I.getImage();
+		
+		final Image[] flecha = {I.getImage(),I1.getImage(),I2.getImage(),I3.getImage()};
+		
+        //final Image este = I.getImage();
+        //final Image norte = I1.getImage();
+        //final Image oeste = I2.getImage();
+        //final Image sur = I3.getImage();
         final Image blanco = B.getImage();
 		
+        
 		JFrame ventana = new JFrame ();		
 		ventana.setLayout(new TableLayout(1,2));
 		ventana.setSize (alto , ancho);
@@ -255,6 +265,8 @@ public class Grilla {
                for (int i = 1; i <= 20; i++)
                  g.drawLine(i * dislineas2, 0, i * dislineas2, alto); 
                
+               g.setColor(Color.RED);
+               
                g.drawLine(100, 0, 100, alto);
                g.drawLine(99, 0, 99, alto);
                g.drawLine(98, 0, 98, alto);
@@ -263,6 +275,8 @@ public class Grilla {
                g.drawLine(0, (20 * dislineas1) - 100, ancho, (20 * dislineas1) - 100);
                g.drawLine(0, (20 * dislineas1) - 99, ancho, (20 * dislineas1) - 99);
                g.drawLine(0, (20 * dislineas1) - 98, ancho, (20 * dislineas1) - 98);
+               
+               g.setColor(Color.BLACK);
                
                g.drawString("Eje X",anchopanel - 40,altopanel - 80);
                g.drawString("Eje Y",63, 30);
@@ -274,11 +288,6 @@ public class Grilla {
                
             }
             
-            public void paintBender(Graphics g,int x, int y){
-            	
-            	g.drawImage(bender, 0, 0, getWidth()/20, getHeight()/20, this);
-            	
-            }
        };
 		panelgrilla.setPreferredSize(new Dimension (1000, 1000));
 		panelgrilla.setLayout(new BorderLayout());
@@ -327,15 +336,39 @@ public class Grilla {
 		    		int inicialx  =inicial_eje_x.getValue();
 		    		int inicialy  =inicial_eje_y.getValue();
 		    		String orinicial =or_inicial.getText();
+		    		int orin = 0;
 		    		int finaly = final_eje_y.getValue();
 		    		int finalx =final_eje_x.getValue();
 		    		String orfinal = or_final.getText();
+		    		int orfin = 0;
+		    		
+		    		if(orinicial.equals("norte") == true) {
+		    			orin = 1;
+					 }else if(orinicial.equals("sur") == true) {
+						 orin = 3;
+					 }else if(orinicial.equals("este") == true) {
+						 orin = 0;
+					 }else if(orinicial.equals("oeste") == true) {
+						 orin = 2;
+					 }
+		    		
+		    		if(orfinal.equals("norte") == true) {
+		    			orfin = 1;
+					 }else if(orfinal.equals("sur") == true) {
+						 orfin = 3;
+					 }else if(orfinal.equals("este") == true) {
+						 orfin = 0;
+					 }else if(orfinal.equals("oeste") == true) {
+						 orfin = 2;
+					 }
 		    		
 		    		//panelgrilla.paintComponents(panelgrilla.getGraphics());
 		    		panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
 		    		panelgrilla.paintComponents(panelgrilla.getGraphics());
-		    		panelgrilla.getGraphics().drawImage(bender, (100 + (inicialx*50)), (850 - (inicialy*50)), 50, 50, null);
 		    		
+		    		panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+					panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+					
 		    		try{
 	    				Thread.sleep(1000); // pausa de 1 segundo
 	    			}catch(Exception exception){	
@@ -345,25 +378,64 @@ public class Grilla {
 		    		while(true){
 		    			
 		    			if(inicialx < finalx){
+		    				while(orin != 0) {
+		    					orin = (orin + 1) % 4;
+		    					panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					try{
+				    				Thread.sleep(1000); // pausa de 1 segundo
+				    			}catch(Exception exception){	
+				    			}
+		    				}
 		    				panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
 		    				inicialx++;
-		    			
+		    				panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50)), (850 - (inicialy*50)), 50, 50, null);
 		    				
 		    			} else if(inicialx>finalx){
+		    				while(orin != 2) {
+		    					orin = (orin + 1) % 4;
+		    					panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					try{
+				    				Thread.sleep(1000); // pausa de 1 segundo
+				    			}catch(Exception exception){	
+				    			}
+		    				}
 		    				panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
 		    				inicialx--;
+		    				panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50)), (850 - (inicialy*50)), 50, 50, null);
 		    				
 		    			}else if(inicialy<finaly){
+		    				while(orin != 1) {
+		    					orin = (orin + 1) % 4;
+		    					panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					try{
+				    				Thread.sleep(1000); // pausa de 1 segundo
+				    			}catch(Exception exception){	
+				    			}
+		    				}
 		    				panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
 		    				inicialy++;
+		    				panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50)), (850 - (inicialy*50)), 50, 50, null);
 		    				
 		    			}else if(inicialy>finaly){
+		    				while(orin != 3) {
+		    					orin = (orin + 1) % 4;
+		    					panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+		    					try{
+				    				Thread.sleep(1000); // pausa de 1 segundo
+				    			}catch(Exception exception){	
+				    			}
+		    				}
 		    				panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
 		    				inicialy--;
+		    				panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50)), (850 - (inicialy*50)), 50, 50, null);
 		    				
 		    			}
 		    			
-		    			panelgrilla.getGraphics().drawImage(bender, (100 + (inicialx*50)), (850 - (inicialy*50)), 50, 50, null);
+		    			
 		    			try{
 		    				Thread.sleep(1000); // pausa de 1 segundo
 		    			}catch(Exception exception){	
@@ -377,6 +449,15 @@ public class Grilla {
 		    			
 		    			
 		    		}
+		    		while(orin != orfin) {
+		    			orin = (orin + 1) % 4;
+		    			panelgrilla.getGraphics().drawImage(blanco, (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+    					panelgrilla.getGraphics().drawImage(flecha[orin], (100 + (inicialx*50))+1, (850 - (inicialy*50))+1, 48, 48, null);
+    					try{
+		    				Thread.sleep(1000); // pausa de 1 segundo
+		    			}catch(Exception exception){	
+		    			}
+    				}
 		    		
 				}
 		    }
