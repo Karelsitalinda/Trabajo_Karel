@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 import javax.imageio.*;
 
 import acm.graphics.GObject;
@@ -51,35 +52,29 @@ public class Grilla {
 	JButton boton;
 	static GPoint ultimo;
 	static GObject obj;
+	static JTextArea printed;
+    public static int[] posicion_inicial;
+    public static int orientacion_inicial;
+    public static int[] posicion_final;
+    public static int orientacion_final;
+
+    static int orientacion_despues;
+    static int posicion_x;
+    static int posicion_y;
+
 	
-	public class KarelVersion2 extends ConsoleProgram {
-		
-		public int[] posicion_inicial;
-		public int orientacion_inicial;
-		public int[] posicion_final;
-		public int orientacion_final;
-		
-		int orientacion_despues;
-		int posicion_x;
-		int posicion_y;
-		
-		
-		public void run() {
-			
-			KarelCodigo();
-			
-		}public int[] posicion_inicia_karel(){
+	public static int[] posicion_inicia_karel(){
 			 posicion_inicial = new int[2];
-			 posicion_x = readInt("Introduzca coordenada inicial eje x:");
-			 posicion_y = readInt("Introduzca coordenada inicial eje y:");
+			 posicion_x = inicial_eje_x.getValue();
+			 posicion_y = inicial_eje_y.getValue();
 			 posicion_inicial[0]= posicion_x;
 			 posicion_inicial[1]= posicion_y;
-			 println("la posicion inicial de Karel es "+"("+posicion_x+","+posicion_y+")");
+			 printed.append(("la posicion inicial de Karel es "+"("+posicion_x+","+posicion_y+")\n"));
 			 
 			 return posicion_inicial;	
 			 
-		}public int orientacion_inicial() {
-			String orientacion_inicial = readLine("Introduzca orientación inicial en minuscula (norte, sur, este, oeste):");
+		}public static int orientacion_inicial() {
+			String orientacion_inicial = or_inicial.getText();
 			int orientacion=0;
 			if(orientacion_inicial.equals("norte") == true) {
 				 orientacion = 2;
@@ -90,17 +85,17 @@ public class Grilla {
 			 }else if(orientacion_inicial.equals("oeste") == true) {
 				 orientacion = 3;
 			 }return orientacion;
-		}public int[] posicion_final_karel(){
+		}public static int[] posicion_final_karel(){
 			 int[] posicion_final = new int[2];
-			 int posicion_xf = readInt("Introduzca coordenada final eje x:");
-			 int posicion_yf = readInt("Introduzca coordenada final eje y:");
+			 int posicion_xf = final_eje_x.getValue();
+			 int posicion_yf = final_eje_y.getValue();
 			 posicion_final[0]= posicion_xf;
 			 posicion_final[1]= posicion_yf;
-			 println("la posicion final de Karel debe ser "+"("+posicion_xf+","+posicion_yf+")");
+			 printed.append("la posicion final de Karel debe ser "+"("+posicion_xf+","+posicion_yf+")\n");
 			 
 			 return posicion_final;	
-		}public int orientacion_final() {
-			String orientacion_final = readLine("Introduzca orientación inicial en minuscula (norte, sur, este, oeste):");
+		}public static int orientacion_final() {
+			String orientacion_final = or_final.getText();;
 			int orientacion=0;
 			if(orientacion_final.equals("norte") == true) {
 				 orientacion = 2;
@@ -112,22 +107,22 @@ public class Grilla {
 				 orientacion = 3;
 			 }return orientacion;
 			 
-		}public int girar_este(int orientacion_inicial) {
+		}public static int girar_este(int orientacion_inicial) {
 			int orientacion = orientacion_inicial;
 			while(orientacion!=3) {
 				orientacion = (orientacion+1)%4;
-				println("Karel gira a la izquierda");
+				printed.append("Karel gira a la izquierda\n");
 				
 			}return orientacion;
 			
-		}public int girar_oeste(int orientacion_inicial) {
+		}public static int girar_oeste(int orientacion_inicial) {
 			int orientacion = orientacion_inicial;
 			while(orientacion!=1) {
 				orientacion = (orientacion+1)%4;
-				println("Karel gira a la izquierda");
+				printed.append("Karel gira a la izquierda\n");
 			}return orientacion;
 			
-		}public int girar_y_moverse(int[] posicion_inicial,int orientacion_inicial,int[] posicion_final,int orientacion_final) {
+		}public static int girar_y_moverse(int[] posicion_inicial,int orientacion_inicial,int[] posicion_final,int orientacion_final) {
 			int posicion_x=posicion_inicial[0];
 			int posicion_y=posicion_inicial[1];
 			int posicion_xf=posicion_final[0];
@@ -141,25 +136,25 @@ public class Grilla {
 				girar_oeste(orientacion_inicial);
 				orientacion = 1;
 				while(numero<=moverse_x) {
-					println("Karel se mueve");
+					printed.append("Karel se mueve\n");
 					numero = numero +1;
 				}
 				if(posicion_yf>=posicion_y) {
 					while(orientacion!=2) {
 						orientacion = (orientacion+1)%4;
-						println("Karel gira a la izquierda");
+						printed.append("Karel gira a la izquierda\n");
 					}
 					while(numero1<=moverse_y) {
-						println("Karel se mueve");
+						printed.append("Karel se mueve\n");
 						numero1=numero1+1;
 					}
 				}else if(posicion_yf<=posicion_y) {
 					while(orientacion !=0) {
 						 orientacion = (orientacion + 1)%4;
-				         println("Karel gira a la izquierda");
+						 printed.append("Karel gira a la izquierda\n");
 					}
 					while(numero1 <=moverse_y) {
-						println("Karel se mueve");
+						printed.append("Karel se mueve\n");
 						numero1 = numero1 +1;
 					}
 				}
@@ -168,16 +163,16 @@ public class Grilla {
 				girar_este(orientacion_inicial);
 				orientacion=3;
 				while(numero <=moverse_x) {
-					println("Karel se mueve");
+					printed.append("Karel se mueve\n");
 					numero = numero+1;
 				}
 				if(posicion_yf>=posicion_y) {
 					while(orientacion !=2) {
 						orientacion = (orientacion + 1)%4;
-						println("Karel gira a la izquierda");
+						printed.append("Karel gira a la izquierda\n");
 					}
 					while(numero1 <=moverse_y) {
-						println("Karel se mueve");
+						printed.append("Karel se mueve\n");
 						numero1=numero1+1;
 						
 					}
@@ -186,37 +181,37 @@ public class Grilla {
 				else if(posicion_yf<=posicion_y) {
 					while(orientacion !=0) {
 						 orientacion = (orientacion + 1)%4;
-				         println("Karel gira a la izquierda");
+						 printed.append("Karel gira a la izquierda\n");
 					}
 					while(numero1 <=moverse_y) {
-						println("Karel se mueve");
+						printed.append("Karel se mueve\n");
 						numero1 = numero1 +1;
 					}
 					
 				}
 			
 			}return orientacion;
-		}public void movimiento_orientacion_final(int orientacion_final, int orientacion_despues) {
+		}public static void movimiento_orientacion_final(int orientacion_final, int orientacion_despues) {
 			int orientacion_fin=orientacion_final;
 			int orientacion_desp = orientacion_despues;
 			while(orientacion_desp!=orientacion_fin) {
 				orientacion_desp = (orientacion_desp + 1)%4;
-				println("Karel gira a la izquierda");
+				printed.append("Karel gira a la izquierda\n");
 				
 			}
-		}public void KarelCodigo() {
+		}public static void KarelCodigo() {
 			posicion_inicial = posicion_inicia_karel();
 			orientacion_inicial =orientacion_inicial();
 			posicion_final=posicion_final_karel();
 			orientacion_final =orientacion_final();
-			println("COMENZANDO-PROGRAMA") ;
-		    println(" COMENZANDO-EJECUCION");
+			printed.append("COMENZANDO-PROGRAMA\n") ;
+			printed.append(" COMENZANDO-EJECUCION\n");
 			orientacion_despues = girar_y_moverse(posicion_inicial,orientacion_inicial,posicion_final,orientacion_final);
 			movimiento_orientacion_final(orientacion_final,orientacion_despues);
-			println(" FIN-DE-EJECUCION");
-			println("FIN-DE-PROGRAMA");
+			printed.append(" FIN-DE-EJECUCION\n");
+			printed.append("FIN-DE-PROGRAMA\n");
+			printed.append("---------------\n");
 		}
-	}
 
 	
 	public static void main (String [] args) {
@@ -297,13 +292,13 @@ public class Grilla {
 		
 		
 		JPanel panelcodigo = new JPanel ();
-		panelcodigo.setLayout(new TableLayout(7,2));
+		panelcodigo.setLayout(new TableLayout(8,2));
 		panelcodigo.setPreferredSize(new Dimension (500, 1000));
 		JLabel posicion_inicial_x = new JLabel("Introduzca coordenada inicial eje x:");
 		JLabel posicion_inicial_y = new JLabel("Introduzca coordenada inicial eje y:");
 		JLabel orientacion_inicial = new JLabel("Introduzca orientacion inicial:");
 		JLabel posicion_final_x= new JLabel("Introduzca coordenada final eje x:");
-		JLabel posicion_final_y= new JLabel("Introduzca coordenada final eje x:");
+		JLabel posicion_final_y= new JLabel("Introduzca coordenada final eje y:");
 		JLabel orientacion_final = new JLabel("Introduzca orientacion final:");
 		JLabel digitar_boton = new JLabel("Haga click en el boton");
 		JButton boton = new JButton("ejecutar");
@@ -313,6 +308,10 @@ public class Grilla {
 		final_eje_x =new IntField();
 		final_eje_y =new IntField();
 		or_final =new TextField();
+		printed = new JTextArea(15,15);
+		printed.setEditable(false);
+		printed.setLineWrap(true);
+		printed.setWrapStyleWord(true);
 		boton = new JButton("boton");
 		panelcodigo.add(posicion_inicial_x);
 		panelcodigo.add(inicial_eje_x);
@@ -326,9 +325,11 @@ public class Grilla {
 		panelcodigo.add(final_eje_y);
 		panelcodigo.add(orientacion_final);
 		panelcodigo.add(or_final);
-		panelcodigo.setBackground(Color.green);
+		panelcodigo.setBackground(Color.blue);
 		panelcodigo.add(digitar_boton);
 		panelcodigo.add(boton);
+		panelcodigo.add(printed);
+		panelcodigo.add(new JLabel("codigo"));
 		ActionListener actionListener = new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
@@ -341,7 +342,8 @@ public class Grilla {
 		    		int finalx =final_eje_x.getValue();
 		    		String orfinal = or_final.getText();
 		    		int orfin = 0;
-		    		
+		            
+		    		KarelCodigo();
 		    		if(orinicial.equals("norte") == true) {
 		    			orin = 1;
 					 }else if(orinicial.equals("sur") == true) {
@@ -457,7 +459,7 @@ public class Grilla {
 		    				Thread.sleep(1000); // pausa de 1 segundo
 		    			}catch(Exception exception){	
 		    			}
-    				}
+    				}//
 		    		
 				}
 		    }
